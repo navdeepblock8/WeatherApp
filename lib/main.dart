@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rethaew/location.dart';
+import 'networking.dart';
 void main(){
   runApp(MaterialApp(
     home: Scaffold(
@@ -14,6 +15,9 @@ class Rehtaew extends StatefulWidget {
 }
 
 class _RehtaewState extends State<Rehtaew> {
+  double latitude;
+  double longitude;
+  int appidkey=12345;
   @override
   void initState() {
     // TODO: implement initState
@@ -24,7 +28,10 @@ class _RehtaewState extends State<Rehtaew> {
   void getCurrentLocation() async{
     Location location = Location();
     await location.getLocation();
-    print(location.latitude);
+    latitude = location.latitude;
+    longitude = location.longitude;
+    Networking networking = Networking('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$appidkey');
+    var weatherData = networking.getData();
   }
   @override
   Widget build(BuildContext context) {
